@@ -21,10 +21,11 @@
 
 
 <!-- drawer component -->
-<div id="drawer-navbarComponent" class="fixed z-40 h-screen p-4 overflow-y-auto bg-white w-60 dark:bg-gray-800"
+<div id="drawer-navbarComponent" class="fixed z-40 h-screen p-4 overflow-y-auto bg-white w-80 dark:bg-gray-800"
     tabindex="-1">
-    <div class="logo_web">
-        <p>logo</p>
+    <div class="logo_web flex justify-center items-end space-x-1 mt-3 mb-3">
+      <img src="{{ asset("img/rupiah_logo.png") }}" alt="rupiah_logo" class="w-10 h-auto">
+        <p class="text-xl uppercase font-semibold text-blue-500">Manage</p>
     </div>
     <div class="flex justify-between items-center">
         <h5 id="drawer-navbarComponent-label"
@@ -44,7 +45,7 @@
     <div class="py-4 overflow-y-auto">
         <ul class="space-y-2 uppercase text-gray-400">
             <li>
-                <a href="/dashboard"
+                <a href="dashboard"
                     class="flex items-center p-2 text-base font-normal rounded-md dark:text-white hover:bg-gray-100 hover:text-violet-500 hover:border-l-4 hover:border-violet-500 dark:hover:bg-gray-700 transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor"
@@ -74,23 +75,23 @@
                 </button>
                 <ul id="dropdown-example" class="hidden py-2 space-y-2">
                     <li>
-                        <a href="/category"
+                        <a href="{{ URL('category') }}"
                             class="flex items-center w-full p-2 text-base font-normal transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">kategori</a>
                     </li>
                     <li>
-                        <a href="/cash"
+                        <a href="{{ URL('cash') }}"
                             class="flex items-center w-full p-2 text-base font-normal transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">uang
                             masuk</a>
                     </li>
                     <li>
-                        <a href="/cash-out"
+                        <a href="{{ URL('cash-out') }}"
                             class="flex items-center w-full p-2 text-base font-normal transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">uang
                             keluar</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#"
+                <a href="{{ URL('user/info') }}"
                     class="flex items-center p-2 text-base font-normal rounded-md dark:text-white hover:bg-gray-100 hover:text-violet-500 hover:border-l-4 hover:border-violet-500 dark:hover:bg-gray-700 transition-all duration-300">
                     <svg aria-hidden="true"
                         class="flex-shrink-0 w-6 h-6 text-violet-500 transition duration-75 dark:text-gray-400 group-hover dark:group-hover:text-white"
@@ -122,7 +123,7 @@
                 </button>
                 <ul id="laporan_dropdown" class="hidden py-2 space-y-2">
                     <li>
-                        <a href="/report/cash-in"
+                        <a href="{{ URL('/report/cash-in') }}"
                             class="flex items-center w-full p-2 text-base font-normal transition duration-75 rounded-lg pl-5 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-2">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -131,7 +132,7 @@
                           </a>
                     </li>
                     <li>
-                        <a href="/report/cash-out"
+                        <a href="{{ URL('/report/cash-out') }}"
                             class="flex items-center w-full p-2 text-base font-normal transition duration-75 rounded-lg pl-5 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-2">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
@@ -143,7 +144,7 @@
                 </ul>
             </li>
             <li>
-                <form action="logout" method="post"
+                <form action="{{ URL("/logout") }}" method="post"
                     class="flex justify-start items-center p-2 text-base font-normal rounded-md hover:text-violet-500 hover:border-l-4 hover:border-violet-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300">
                     @csrf
                     <svg aria-hidden="true"

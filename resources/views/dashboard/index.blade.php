@@ -26,8 +26,8 @@
             <div class="body flex justify-end items-center space-x-2">
                 @if ($balances->count())
                 @foreach ($balances as $balance)
-                <p class="uppercase font-semibold text-xl text-gray-600">
-                    {{ number_format($balance->balance, 2)}}
+                <p class="font-semibold text-xl text-gray-400">
+                   Rp. {{ number_format($balance->balance, 2)}}
                     <span>IDR</span></p>
                 <div class="update_balance_modal">
                     <button type="button" data-modal-toggle="balance-modal" class="p-2 bg-green-500 text-white"><svg
@@ -39,18 +39,40 @@
                 </div>
                 @endforeach
                 @else
-                <p class="uppercase font-semibold text-xl text-gray-600">
-                    0
+                <p class="font-semibold text-xl text-gray-600">
+                   Rp. 0
                     <span>IDR</span></p>
                 @endif
             </div>
         </div>
         <div class="w-3/12 bg-white roundeed p-2">
-            <p>ww</p>
+          <div class="header_text flex items-center justify-between text-gray-400 space-x-2 border-b-2 pt-2 pb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+            </svg>
+            <p class="font-semibold text-xl">SALDO BULAN INI</p>
+          </div>
+          <div class="value_balance flex items-center justify-end mt-5">
+            <p class="text-gray-400 text-xl font-semibold">Rp. {{ number_format($month_balance, 2) }}</p>
+          </div>
         </div>
         <div class="w-3/12 bg-white roundeed p-2">
-            <p>ww</p>
+            <div class="member_count w-full flex justify-start items-center space-x-2 border-b-2 pt-2 pb-3 text-gray-400 font-semibold">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+                <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
+              </svg>
+              <span class="font-semibold text-xl">KARYAWAN</span>
+            </div>
+            <div class="value flex justify-end mt-3">
+              <p class="text-gray-400 text-4xl font-semibold">{{ $members }}</p>
+            </div>
         </div>
+    </div>
+    <div class="chart_section w-3/4 bg-white p-2 shadow-lg rounded-lg overflow-hidden mt-8 mb-8 mx-auto">
+      <div class="text_header">
+        <p class="uppercase text-xl font-semibold text-gray-500 text-center mt-4 mb-2">LAPorAN DATA KEUANGAN (Hanya Tampilan Saja)</p>
+      </div>
+      <canvas class="p-10" id="chartLine"></canvas>
     </div>
     @if ($mess = Session::get('success'))
     <div class="w-full">
@@ -110,6 +132,8 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.2.min.js"
     integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+<!-- Required chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     $(document).ready(function () {
         $.ajax({
@@ -123,5 +147,28 @@
         });
     });
 
+    const labels = ["January", "February", "March", "April", "May", "June"];
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Data Money Management",
+        backgroundColor: "hsl(252, 82.9%, 67.8%)",
+        borderColor: "hsl(252, 82.9%, 67.8%)",
+        data: [0, 10, 5, 2, 20, 30, 45],
+      },
+    ],
+  };
+
+  const configLineChart = {
+    type: "line",
+    data,
+    options: {},
+  };
+
+  var chartLine = new Chart(
+    document.getElementById("chartLine"),
+    configLineChart
+  );
 </script>
 @endsection

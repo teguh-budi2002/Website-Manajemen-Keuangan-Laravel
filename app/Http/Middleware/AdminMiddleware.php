@@ -18,10 +18,10 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
       if (Auth::check()) {
-        if (auth()->user()->isAdmin) {
+        if (Auth::user()->isAdmin) {
           return $next($request);
         }
       }
-      return redirect('home');
+      return redirect('home')->with('not-allowed', "Mohon Maaf, Hanya Admin Yang Dapat Mengakses Halaman Dashboard");
     }
 }

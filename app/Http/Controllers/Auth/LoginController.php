@@ -19,18 +19,15 @@ class LoginController extends Controller
         'password' => 'required'
       ]);
 
-      $getValidUser = User::where('username', $req->username)->first();
-      if (!$getValidUser) {
+      if (!Auth::attempt($validation)) {
         return redirect()->back()->with("not-valid", "User Tidak Ditemukan");
       }
 
-      if ($getValidUser->isAdmin) {
-        $remember_me = $req->remember_me ? true : false;
-        if (Auth::attempt($validation, $remember_me)) {
-          $req->session()->regenerate();
+      $remember_me = $req->remember_me ? true : false;
+      if (Auth::attempt($validation, $remember_me)) {
+        $req->session()->regenerate();
 
-          return redirect()->intended("dashboard");
-        }
+        return redirect()->intended("dashboard");
       }
 
       return redirect("home");

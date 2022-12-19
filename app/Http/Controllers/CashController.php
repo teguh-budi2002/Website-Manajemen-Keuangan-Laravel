@@ -55,6 +55,7 @@ class CashController extends Controller
       $reportAdded = Report::create([
         'balance_report' => $req->balance,
         'category_id' => $req->category_id,
+        'user_id' => Auth::id(),
         'description_report' => $req->description,
         'status' => "Uang Keluar",
         'cash_in' => FALSE
@@ -106,6 +107,7 @@ class CashController extends Controller
         'balance_report' => $req->balance,
         'description_report' => $req->description,
         'category_id' => $req->category_id,
+        'user_id' => Auth::id(),
         'status' => "Uang Masuk",
         'cash_in' => TRUE
       ]);
@@ -160,6 +162,7 @@ class CashController extends Controller
       $reportAdded = Report::create([
         'balance_report' => $req->balance,
         'category_id' => $req->category_id,
+        'user_id' => Auth::id(),
         'status' => "Tambah Saldo",
         'cash_in' => TRUE
       ]);

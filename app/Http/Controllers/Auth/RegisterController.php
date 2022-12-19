@@ -21,6 +21,8 @@ class RegisterController extends Controller
         'password' => 'required',
         'age' => 'required',
         'address' => 'required'
+      ], [
+        'username.min' => "Minimal Username Adalah 10 Karakter"
       ]);
       try {
         DB::beginTransaction();

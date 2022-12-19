@@ -1,6 +1,9 @@
 @extends('app')
 @section('container')
-<div class="w-full flex justify-center mt-28 mb-10">
+<div class="logo mt-12 mb-5">
+  <img src="{{ asset("/img/rupiah_logo.png") }}" class="mx-auto w-24 h-auto" alt="rupiah logo">
+</div>
+<div class="flex justify-center mb-10">
     <div class="w-2/6 p-2 bg-white rounded-md border-t-4 border-violet-400">
         <div class="header_register mt-2 mb-4">
             <p class="text-start text-2xl font-semibold text-gray-400">MASUK AKUN</p>

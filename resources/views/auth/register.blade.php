@@ -1,7 +1,10 @@
 @extends('app')
 @section('container')
-<div class="w-full flex justify-center mt-28 mb-10">
-    <div class="w-2/4 p-2 bg-white rounded-md border-t-4 border-violet-400">
+<div class="logo mt-12 mb-5">
+  <img src="{{ asset("/img/rupiah_logo.png") }}" class="mx-auto w-24 h-auto" alt="rupiah logo">
+</div>
+<div class="flex justify-center mb-10">
+    <div class="w-2/4 p-2 bg-white shadow-md shadow-violet-400 rounded-md border-t-4 border-violet-400">
         <div class="header_register mt-2 mb-4 flex justify-between items-center">
             <p class="text-start text-2xl font-semibold text-gray-400">DAFTAR AKUN</p>
             <a href="login" class="text-sm font-medium text-blue-400 hover:text-blue-300">Login?</a>
