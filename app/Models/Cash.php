@@ -11,6 +11,7 @@ class Cash extends Model
     protected $fillable = [
       'balance',
       'description',
+      'status_cash',
       'category_id',
       'user_id',
       'published_at'

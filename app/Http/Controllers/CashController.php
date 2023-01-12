@@ -29,31 +29,58 @@ class CashController extends Controller
      */
 
     public function indexCashOut() {
-      $cashBalance = Cash::with('category')->where('user_id', Auth::id())->get();
+        // Saldo Selama Ini
+      $cash_in = Cash::select("id", "balance")
+                          ->where('user_id', Auth::id())
+                          ->where('status_cash', "Debit")
+                          ->sum("balance");
+      $cash_out = Cash::select("id", "balance")
+                          ->where('user_id', Auth::id())
+                          ->where('status_cash', "Credit")
+                          ->sum("balance");
+      $cashBalance = (int)$cash_in - (int)$cash_out;
+
+      $getCategories = Category::get();
       return view("dashboard.cash.cash_out", [
-        'balances' => $cashBalance
+        'balances' => $cashBalance,
+        'categories' => $getCategories
       ]);
     }
 
-    public function cashOut(Request $req, $id) {
+    public function cashOut(Request $req) {
       $validation = $req->validate([
-        'balance' => 'required',
+        'cash_out' => 'required',
         'category_id' => 'required',
         'description' => 'required'
       ]);
 
-      $cashBalance = Cash::select("id", "balance")->where('user_id', Auth::id())->first();
+      // Saldo Selama Ini
+      $cash_in = Cash::select("id", "balance")
+                          ->where('user_id', Auth::id())
+                          ->where('status_cash', "Debit")
+                          ->sum("balance");
+      $cash_out = Cash::select("id", "balance")
+                          ->where('user_id', Auth::id())
+                          ->where('status_cash', "Credit")
+                          ->sum("balance");
+      $balanceCash = (int)$cash_in - (int)$cash_out;
 
-      if((int)$req->balance > $cashBalance->balance) {
+      //Check Jika Saldo Tidak Cukup, Maka Tidak Boleh Ada Pengeluaran Uang
+      if((int)$req->balance > $balanceCash) {
         return redirect()->back()->with('to_many_request', "Saldo Tidak Cukup");
       }
 
-      $cashOut = $cashBalance->balance - (int)$req->balance;
-      $isUpdated = Cash::where('id', $id)->update([
-        'balance' => $cashOut
+      $isCashOut = Cash::create([
+        'balance' => $req->cash_out,
+        'category_id' => $req->category_id,
+        'description' => $req->description,
+        'user_id' => Auth::id(),
+        'status_cash' => 'Credit',
+        'published_at' => Carbon::now()
       ]);
+
       $reportAdded = Report::create([
-        'balance_report' => $req->balance,
+        'balance_report' => $req->cash_out,
         'category_id' => $req->category_id,
         'user_id' => Auth::id(),
         'description_report' => $req->description,
@@ -82,12 +109,6 @@ class CashController extends Controller
      */
     public function store(Request $req)
     {
-      $checkBalanceUser = Cash::where('user_id', Auth::id())->first();
-
-      if ($checkBalanceUser !== NULL) {
-         return redirect()->back()->with('exists', 'Tidak Bisa Menambah Saldo Lagi');
-      }
-
       $validation = $req->validate([
         'balance' => 'required|numeric',
         'category_id' => 'required',
@@ -101,6 +122,7 @@ class CashController extends Controller
 
       $validation['user_id'] = Auth::id();
       $validation['published_at'] = Carbon::now();
+      $validation['status_cash'] = "Debit";
 
       $balanceAdded = Cash::create($validation);
       $reportAdded = Report::create([
@@ -179,22 +201,5 @@ class CashController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function getCurrentBalance() {
-      try {
-        $getBalance = Cash::with(['category' => function($q) {
-            $q->select("id");
-        }])->where("user_id", Auth::id())->first();
-
-        return response()->json([
-          'data' => $getBalance,
-          'status' => "success"
-        ], 200);
-
-      } catch (\Throwable $th) {
-        return response()->json($th, 500);
-      }
-
     }
 }

@@ -58,7 +58,7 @@
                 </tr>
                 @endforeach
               @else
-                <p class="text-center text-xl font-semibold text-gray-400 uppercase mb-5">Belum Ada Laporan Uang Masuk</p>
+                <p class="text-center text-xl font-semibold text-red-500 uppercase mb-5">Belum Ada Laporan Uang Masuk</p>
               @endif
             </tbody>
         </table>

@@ -19,6 +19,7 @@ class CreateCashesTable extends Migration
             $table->foreignId("category_id");
             $table->integer("balance");
             $table->longText("description");
+            $table->string('status_cash');
             $table->timestamp("published_at");
             $table->timestamps();
         });

@@ -29,7 +29,7 @@ Route::middleware('admin')->group(function() {
   Route::resource('category', CategoryController::class);
   Route::resource('cash', CashController::class);
   Route::get('cash-out', [CashController::class, 'indexCashOut']);
-  Route::put('cash-out/send/{id}', [CashController::class, 'cashOut']);
+  Route::post('cash-out/send/', [CashController::class, 'cashOut']);
   Route::get('get-balance', [CashController::class, 'getCurrentBalance']);
 
   Route::get("report/cash-in", [ReportController::class, 'cashIn']);
