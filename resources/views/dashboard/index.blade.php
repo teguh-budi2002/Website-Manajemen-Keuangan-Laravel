@@ -24,28 +24,12 @@
                 <p class="uppercase font-semibold text-xl text-gray-400">saldo</p>
             </div>
             <div class="body flex justify-end items-center space-x-2">
-                @if ($balances->count())
-                @foreach ($balances as $balance)
                 <p class="font-semibold text-xl text-gray-400">
-                   Rp. {{ number_format($balance->balance, 2)}}
+                   Rp. {{ $balances !== NULL ? number_format($balances, 2) : "0"}}
                     <span>IDR</span></p>
-                <div class="update_balance_modal">
-                    <button type="button" data-modal-toggle="balance-modal" class="p-2 bg-green-500 text-white"><svg
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-                        </svg>
-                    </button>
-                </div>
-                @endforeach
-                @else
-                <p class="font-semibold text-xl text-gray-600">
-                   Rp. 0
-                    <span>IDR</span></p>
-                @endif
             </div>
         </div>
-        <div class="w-3/12 bg-white roundeed p-2">
+        <div class="w-3/12 bg-white rounded p-2">
           <div class="header_text flex items-center justify-between text-gray-400 space-x-2 border-b-2 pt-2 pb-3">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
@@ -68,12 +52,6 @@
             </div>
         </div>
     </div>
-    <div class="chart_section w-3/4 bg-white p-2 shadow-lg rounded-lg overflow-hidden mt-8 mb-8 mx-auto">
-      <div class="text_header">
-        <p class="uppercase text-xl font-semibold text-gray-500 text-center mt-4 mb-2">LAPorAN DATA KEUANGAN (Hanya Tampilan Saja)</p>
-      </div>
-      <canvas class="p-10" id="chartLine"></canvas>
-    </div>
     @if ($mess = Session::get('success'))
     <div class="w-full">
         <div class="w-2/3 mt-4 mx-auto rounded text-center p-2 bg-green-500 text-white">
@@ -87,48 +65,13 @@
         </div>
     </div>
     @endif
-</div>
-</div>
-<div id="balance-modal" tabindex="-1" aria-hidden="true"
-    class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-    <div class="relative w-full h-full max-w-md md:h-auto">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button type="button"
-                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-                data-modal-toggle="balance-modal">
-                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <span class="sr-only">Close modal</span>
-            </button>
-            @if ($balances->count())
-            @foreach ($balances as $balance)
-            <div class="px-6 py-6 lg:px-8">
-                <h3 class="mb-4 text-xl font-medium text-gray-500 dark:text-white">TAMBAH SALDO</h3>
-                <form class="space-y-6" action="{{ URL("cash/" . $balance->id )}}" method="POST">
-                    @csrf
-                    @method("PUT")
-                    <div>
-                        <label for="balance"
-                            class="block mb-2 text-sm font-medium text-gray-500 dark:text-white">SALDO</label>
-                        <input type="balance" name="balance" id="balance"
-                            class="bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Masukkan Nominal Yang Ingin Kamu Tambahkan....">
-                        <input type="hidden" name="category_id" id="cat_id">
-                    </div>
-                    <div class="btn text-center">
-                        <button class="py-2.5 px-6 rounded bg-green-600 text-white">TAMBAH SEKARANG</button>
-                    </div>
-                </form>
-            </div>
-            @endforeach
-            @endif
-        </div>
+    <div class="chart_section w-3/4 bg-white p-2 shadow-lg rounded-lg overflow-hidden mt-8 mb-8 mx-auto">
+      <div class="text_header">
+        <p class="uppercase text-xl font-semibold text-gray-500 text-center mt-4 mb-2">LAPorAN DATA KEUANGAN (Hanya Tampilan Saja)</p>
+      </div>
+      <canvas class="p-10" id="chartLine"></canvas>
     </div>
+</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.2.min.js"
     integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>

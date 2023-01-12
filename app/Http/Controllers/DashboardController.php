@@ -20,21 +20,33 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $balances = Cash::where('user_id', Auth::id())->get();
+        // Saldo Selama Ini
+        $cash_in = Cash::select("id", "balance")
+                            ->where('user_id', Auth::id())
+                            ->where('status_cash', "Debit")
+                            ->sum("balance");
+        $cash_out = Cash::select("id", "balance")
+                            ->where('user_id', Auth::id())
+                            ->where('status_cash', "Credit")
+                            ->sum("balance");
+        $balances = (int)$cash_in - (int)$cash_out;
+
+        // Get Member
         $getMember = User::where("isAdmin", FALSE)->count();
 
+        //Saldo Selama Bulan Ini
         $cash_in_month = Report::select("cash_in")
                                 ->whereYear('created_at', Carbon::now()->year)
                                 ->whereMonth("created_at", Date::now()->month)
                                 ->where("cash_in", TRUE)
                                 ->sum("balance_report");
 
-        $cash_out = Report::select("cash_in")
+        $cash_out_report = Report::select("cash_in")
                             ->whereYear('created_at', Carbon::now()->year)
                             ->whereMonth("created_at", Date::now()->month)
                             ->where("cash_in", FALSE)
                             ->sum("balance_report");
-        $totalCashInMonth = (int)$cash_in_month - (int)$cash_out;
+        $totalCashInMonth = (int)$cash_in_month - (int)$cash_out_report;
 
         return view('dashboard.index', [
           'balances' => $balances,

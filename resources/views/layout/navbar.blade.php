@@ -45,7 +45,7 @@
     <div class="py-4 overflow-y-auto">
         <ul class="space-y-2 uppercase text-gray-400">
             <li>
-                <a href="dashboard"
+                <a href="{{ URL('dashboard') }}"
                     class="flex items-center p-2 text-base font-normal rounded-md dark:text-white hover:bg-gray-100 hover:text-violet-500 hover:border-l-4 hover:border-violet-500 dark:hover:bg-gray-700 transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor"
